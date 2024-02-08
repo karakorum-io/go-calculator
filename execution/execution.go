@@ -2,10 +2,10 @@ package execution
 
 import (
 	"fmt"
-	"log"
 	"strconv"
 
 	"karakorum.in/dev/go-calculator/information"
+	loggs "karakorum.in/dev/go-calculator/logger"
 	model "karakorum.in/dev/go-calculator/models"
 	"karakorum.in/dev/go-calculator/utils"
 )
@@ -15,7 +15,7 @@ func GetOperation() string {
 	_, err := fmt.Scanln(&option)
 
 	if err != nil {
-		log.Fatal(err)
+		loggs.LogData(err.Error())
 	}
 
 	return option
@@ -26,7 +26,8 @@ func scan() string {
 	_, err := fmt.Scanln(&value)
 
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Something went wrong while scanning.")
+		loggs.LogData(err.Error())
 	}
 
 	return value
@@ -37,7 +38,8 @@ func scanConvert() int {
 	number, err := strconv.Atoi(scan())
 
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Inavlid value.")
+		loggs.LogData(err.Error())
 	}
 
 	return number
@@ -64,39 +66,44 @@ func LaunchExecution(option string) bool {
 		fmt.Println("You Choose Addition")
 		nums := getOperands()
 		utils.ClearScreen()
-		information.Output("Addition", nums.Num1+nums.Num2)
-
+		result := nums.Num1 + nums.Num2
+		information.Output("Addition", result)
+		loggs.LogData("Addition result : " + strconv.Itoa(result))
 		return true
 	case "2":
 
 		fmt.Println("You Choose Subtraction")
 		nums := getOperands()
 		utils.ClearScreen()
-		information.Output("Subtraction", nums.Num1-nums.Num2)
-
+		result := nums.Num1 - nums.Num2
+		information.Output("Subtraction", result)
+		loggs.LogData("Subtraction result : " + strconv.Itoa(result))
 		return true
 	case "3":
 
 		fmt.Println("You Choose Multiplication")
 		nums := getOperands()
 		utils.ClearScreen()
-		information.Output("Multiplication", nums.Num1*nums.Num2)
-
+		result := nums.Num1 * nums.Num2
+		information.Output("Multiplication", result)
+		loggs.LogData("Multiplication result : " + strconv.Itoa(result))
 		return true
 	case "4":
 
 		fmt.Println("You Choose Divide")
 		nums := getOperands()
 		utils.ClearScreen()
-		information.Output("Division", nums.Num1/nums.Num2)
-
+		result := nums.Num1 / nums.Num2
+		information.Output("Division", result)
+		loggs.LogData("Division result : " + strconv.Itoa(result))
 		return true
 	case "5":
-
 		fmt.Println("You Choose to exit. Exiting ...")
+		loggs.LogData("You Choose to exit. Exiting ...")
 		return false
 	default:
 		fmt.Println("Invalid Option! Exiting Application!")
+		loggs.LogData("Invalid Option! Exiting Application!")
 		return false
 	}
 }
